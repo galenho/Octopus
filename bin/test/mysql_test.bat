@@ -1,0 +1,1 @@
+start "mysql_test" ../Octopus.exe log/mysql_test test.xml mysql_test.lua

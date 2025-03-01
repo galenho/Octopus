@@ -1,0 +1,1 @@
+start "udpclient_test" ../Octopus.exe log/udpclient_test test.xml udpclient_test.lua

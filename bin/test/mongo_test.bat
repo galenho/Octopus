@@ -1,0 +1,1 @@
+start "mongo_test" ../Octopus.exe log/mongo_test test.xml mongo_test.lua

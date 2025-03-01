@@ -1,0 +1,27 @@
+-------------------------------------------------------------------------------
+		gdb调试
+-------------------------------------------------------------------------------
+	ps aux | grep cross_S2
+	gdb -p 19076
+
+	break StatueHelper.cpp:181
+	c
+	p paramId
+	p guildId
+
+
+	break StatueHelper.cpp:171
+	p mapServerStatue
+	p ((CServerStatueData*)0x7fa3cf807680)->_mapMapStatue
+	p ((CStatueData*)0x7fa3d0ce3000)->_paramId
+	c
+
+
+	quit
+
+
+
+
+	自动化脚本:
+
+	gdb -p 27200 --batch --command=cmd.gdb

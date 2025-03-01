@@ -1,0 +1,1 @@
+start "hello_world" ../Octopus.exe log/hello_world test.xml hello_world.lua

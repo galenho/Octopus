@@ -1,0 +1,148 @@
+---------------------------------------------------------------------	
+			安装mingw和cmake
+---------------------------------------------------------------------	
+1. strawberry-perl-5.32.1.1-64bit.msi
+
+	安装strawberry-perl-5.32.1.1-64bit.msi
+
+2. cmake 3.20.3 
+
+	cmake-3.20.3-windows-x86_64.msi
+
+
+---------------------------------------------------------------------	
+			编译和安装第三方库(32位)
+---------------------------------------------------------------------
+
+1. luajit
+	
+	(1) 打开x86 Native Tools Command Prompt for VS 2019
+
+		cd D:\third_party\luajit\src
+		msvcbuild.bat
+
+	(3) 将lua51.lib, luajit.lib, minilua.lib, buildvm.lib复制到D:\workspace\Octopus\lib\win32
+
+	(4) 将lua51.dll复制到D:\workspace\Octopus\bin
+
+
+2. tinyxml 2.6.2
+
+	(1) 打开VS.net 2019打开D:\third_party\tinyxml-2.6.2\tinyxml.sln
+
+	(2) 选择 Debug 和 Release 编译即可
+
+	(3) 将tinyxml.lib和tinyxmlD.lib复制到D:\workspace\Octopus\lib\win32
+
+3. jsoncpp 0.10.7
+
+	(1) 打开VS.net 2019打开D:\third_party\jsoncpp-0.10.7\makefiles\msvc2019\jsoncpp.sln
+
+	(2) 选择 Debug 和 Release 编译即可
+
+	(3) 将json.lib和jsonD.lib复制到D:\workspace\Octopus\lib\win32
+
+4. openssl 1.1.1d
+
+	(1) 打开x86 Native Tools Command Prompt for VS 2019
+
+		cd D:\third_party\openssl-1.1.1d
+		perl Configure VC-WIN32 no-asm --prefix=D:\third_party\openssl-1.1.1d\Release
+		nmake
+		nmake test
+		nmake install
+
+	(2) 将libcrypto.lib和libssl.lib复制到D:\workspace\Octopus\lib\win32
+
+	(3) 将libcrypto-1_1.dll和libssl-1_1.dll复制到D:\workspace\Octopus\bin
+
+
+5. curl 7.59.0
+
+	(1) 使用VS.net 2019打开D:\third_party\curl-7.59.0\projects\Windows\VC15\curl-all.sln
+
+	(2) 选择 DLL Debug 和 DLL Release 编译即可
+
+	(3) 将libcurl.lib和libcurld.lib复制到D:\workspace\Octopus\lib\win32
+
+	(4) 将libcurl.dll和libcurld.dll复制到D:\workspace\Octopus\bin
+
+
+6. mongo-c-driver-1.17.6
+
+	(1) [Generate]生成一下解决方案, 并[Open workspace]打开解决方案
+
+	(2) 选择 Release 编译即可
+
+	(3) 将mongoc-1.0.lib和bson-1.0.lib复制到D:\workspace\Octopus\lib\win32
+
+	(4) 将mongoc-1.0.dll和bson-1.0.dll复制到D:\workspace\Octopus\bin
+	
+
+---------------------------------------------------------------------	
+			编译和安装第三方库(64位)
+---------------------------------------------------------------------
+
+1. luajit
+	
+	(1) 打开x64 Native Tools Command Prompt for VS 2019
+
+		cd D:\third_party\luajit\src
+		msvcbuild.bat
+
+	(3) 将lua51.lib, luajit.lib, minilua.lib, buildvm.lib复制到D:\workspace\Octopus\lib\win64
+
+	(4) 将lua51.dll复制到D:\workspace\Octopus\bin
+
+
+2. tinyxml 2.6.2
+
+	(1) 打开VS.net 2019打开D:\third_party\tinyxml-2.6.2\tinyxml.sln
+
+	(2) 选择 Debug 和 Release 编译即可
+
+	(3) 将tinyxml.lib和tinyxmlD.lib复制到D:\workspace\Octopus\lib\win64
+
+3. jsoncpp 0.10.7
+
+	(1) 打开VS.net 2019打开D:\third_party\jsoncpp-0.10.7\makefiles\msvc2019\jsoncpp.sln
+
+	(2) 选择 Debug 和 Release 编译即可
+
+	(3) 将json.lib和jsonD.lib复制到D:\workspace\Octopus\lib\win64
+
+4. openssl 1.1.1d
+
+	(1) 打开x64 Native Tools Command Prompt for VS 2019
+
+		cd D:\third_party\openssl-1.1.1d
+		perl Configure VC-WIN32 no-asm --prefix=D:\third_party\openssl-1.1.1d\Release 或 perl Configure VC-WIN64A no-asm --prefix=D:\third_party\openssl-1.1.1d\Release
+		nmake
+		nmake test
+		nmake install
+
+	(2) 将libcrypto.lib和libssl.lib复制到D:\workspace\Octopus\lib\win64
+
+	(3) 将libcrypto-1_1-x64.dll和libssl-1_1-x64.dll复制到D:\workspace\Octopus\bin
+
+
+5. curl 7.59.0
+
+	(1) 使用VS.net 2019打开D:\third_party\curl-7.59.0\projects\Windows\VC15\curl-all.sln
+
+	(2) 选择 DLL Debug 和 DLL Release 编译即可
+
+	(3) 将libcurl.lib和libcurld.lib复制到D:\workspace\Octopus\lib\win64
+
+	(4) 将libcurl.dll和libcurld.dll复制到D:\workspace\Octopus\bin
+
+
+6. mongo-c-driver-1.17.6
+
+	(1) [Generate]生成一下解决方案, 并[Open workspace]打开解决方案
+
+	(2) 选择 Release 编译即可
+
+	(3) 将mongoc-1.0.lib和bson-1.0.lib复制到D:\workspace\Octopus\lib\win64
+
+	(4) 将mongoc-1.0.dll和bson-1.0.dll复制到D:\workspace\Octopus\bin

@@ -1,0 +1,36 @@
+---------------------------------------------------------------
+			面向对象的Socket框架
+---------------------------------------------------------------
+
+
+SocketBase
+
+		ListenSocket
+
+			TCPListenSocket
+
+				HTTPListenSocket
+
+				WebListenSocket
+
+			UDPListenSocket
+
+				KCPListenSocket
+		
+			
+
+		Socket
+
+			TcpSocket
+
+				HttpSocket
+
+				WebSocket
+
+			UdpSocket
+
+				KcpSocket
+
+
+
+SocketMgr

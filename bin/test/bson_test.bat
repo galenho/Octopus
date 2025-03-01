@@ -1,0 +1,1 @@
+start "bson_test" ../Octopus.exe log/bson_test test.xml bson_test.lua

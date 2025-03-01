@@ -1,0 +1,1 @@
+start "kcpserver_test" ../Octopus.exe log/kcpserver_test test.xml kcpserver_test.lua

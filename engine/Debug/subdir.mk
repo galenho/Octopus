@@ -1,0 +1,214 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables
+CPP_SRCS += \
+../clog.cpp \
+../common.cpp \
+../console_poller.cpp \
+../datatime.cpp \
+../event.cpp \
+../http_accessor.cpp \
+../http_accessor_impl.cpp \
+../http_help.cpp \
+../http_listen_socket.cpp \
+../http_parser.cpp \
+../http_server.cpp \
+../http_server_impl.cpp \
+../http_socket.cpp \
+../ikcp.cpp \
+../kcp_client.cpp \
+../kcp_client_impl.cpp \
+../kcp_listen_socket.cpp \
+../kcp_server.cpp \
+../kcp_server_impl.cpp \
+../kcp_socket.cpp \
+../listen_socket.cpp \
+../lua_bson.cpp \
+../lua_fix.cpp \
+../mongo_connection.cpp \
+../mongo_database.cpp \
+../mongo_database_impl.cpp \
+../mutex.cpp \
+../mysql_connection.cpp \
+../mysql_database.cpp \
+../mysql_database_impl.cpp \
+../referable.cpp \
+../resultset.cpp \
+../rwlock.cpp \
+../scheduler.cpp \
+../scheduler_impl.cpp \
+../sequence_buffer.cpp \
+../serialize_stream.cpp \
+../sim_parser.cpp \
+../socket.cpp \
+../socket_mgr_linux.cpp \
+../socket_mgr_win32.cpp \
+../socket_ops_linux.cpp \
+../socket_ops_win32.cpp \
+../statement.cpp \
+../task.cpp \
+../tcp_client.cpp \
+../tcp_client_impl.cpp \
+../tcp_listen_socket.cpp \
+../tcp_server.cpp \
+../tcp_server_impl.cpp \
+../tcp_socket.cpp \
+../thread_base.cpp \
+../timer.cpp \
+../udp_client.cpp \
+../udp_client_impl.cpp \
+../udp_listen_socket.cpp \
+../udp_server.cpp \
+../udp_server_impl.cpp \
+../udp_socket.cpp \
+../util.cpp \
+../web_listen_socket.cpp \
+../web_socket.cpp \
+../websocket_server.cpp \
+../websocket_server_impl.cpp \
+../work_thread.cpp 
+
+CPP_DEPS += \
+./clog.d \
+./common.d \
+./console_poller.d \
+./datatime.d \
+./event.d \
+./http_accessor.d \
+./http_accessor_impl.d \
+./http_help.d \
+./http_listen_socket.d \
+./http_parser.d \
+./http_server.d \
+./http_server_impl.d \
+./http_socket.d \
+./ikcp.d \
+./kcp_client.d \
+./kcp_client_impl.d \
+./kcp_listen_socket.d \
+./kcp_server.d \
+./kcp_server_impl.d \
+./kcp_socket.d \
+./listen_socket.d \
+./lua_bson.d \
+./lua_fix.d \
+./mongo_connection.d \
+./mongo_database.d \
+./mongo_database_impl.d \
+./mutex.d \
+./mysql_connection.d \
+./mysql_database.d \
+./mysql_database_impl.d \
+./referable.d \
+./resultset.d \
+./rwlock.d \
+./scheduler.d \
+./scheduler_impl.d \
+./sequence_buffer.d \
+./serialize_stream.d \
+./sim_parser.d \
+./socket.d \
+./socket_mgr_linux.d \
+./socket_mgr_win32.d \
+./socket_ops_linux.d \
+./socket_ops_win32.d \
+./statement.d \
+./task.d \
+./tcp_client.d \
+./tcp_client_impl.d \
+./tcp_listen_socket.d \
+./tcp_server.d \
+./tcp_server_impl.d \
+./tcp_socket.d \
+./thread_base.d \
+./timer.d \
+./udp_client.d \
+./udp_client_impl.d \
+./udp_listen_socket.d \
+./udp_server.d \
+./udp_server_impl.d \
+./udp_socket.d \
+./util.d \
+./web_listen_socket.d \
+./web_socket.d \
+./websocket_server.d \
+./websocket_server_impl.d \
+./work_thread.d 
+
+OBJS += \
+./clog.o \
+./common.o \
+./console_poller.o \
+./datatime.o \
+./event.o \
+./http_accessor.o \
+./http_accessor_impl.o \
+./http_help.o \
+./http_listen_socket.o \
+./http_parser.o \
+./http_server.o \
+./http_server_impl.o \
+./http_socket.o \
+./ikcp.o \
+./kcp_client.o \
+./kcp_client_impl.o \
+./kcp_listen_socket.o \
+./kcp_server.o \
+./kcp_server_impl.o \
+./kcp_socket.o \
+./listen_socket.o \
+./lua_bson.o \
+./lua_fix.o \
+./mongo_connection.o \
+./mongo_database.o \
+./mongo_database_impl.o \
+./mutex.o \
+./mysql_connection.o \
+./mysql_database.o \
+./mysql_database_impl.o \
+./referable.o \
+./resultset.o \
+./rwlock.o \
+./scheduler.o \
+./scheduler_impl.o \
+./sequence_buffer.o \
+./serialize_stream.o \
+./sim_parser.o \
+./socket.o \
+./socket_mgr_linux.o \
+./socket_mgr_win32.o \
+./socket_ops_linux.o \
+./socket_ops_win32.o \
+./statement.o \
+./task.o \
+./tcp_client.o \
+./tcp_client_impl.o \
+./tcp_listen_socket.o \
+./tcp_server.o \
+./tcp_server_impl.o \
+./tcp_socket.o \
+./thread_base.o \
+./timer.o \
+./udp_client.o \
+./udp_client_impl.o \
+./udp_listen_socket.o \
+./udp_server.o \
+./udp_server_impl.o \
+./udp_socket.o \
+./util.o \
+./web_listen_socket.o \
+./web_socket.o \
+./websocket_server.o \
+./websocket_server_impl.o \
+./work_thread.o 
+
+# Each subdirectory must supply rules for building sources it contributes
+%.o: ../%.cpp
+	@echo 'Building file: $<'
+	@echo 'Invoking: GCC C++ Compiler'
+	g++ -std=c++11 -D_GLIBCXX_DEBUG  -I../../ -I../../include -I../../include/lua -I../../include/libbson-1.0 -I../../include/libmongoc-1.0 -DDEBUG -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ''
+

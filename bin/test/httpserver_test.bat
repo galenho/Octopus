@@ -1,0 +1,1 @@
+start "httpserver_test" ../Octopus.exe log/httpserver_test test.xml httpserver_test.lua

@@ -1,0 +1,1 @@
+start "hotfix_test" ../Octopus.exe log/hotfix_test test.xml hotfix_test.lua

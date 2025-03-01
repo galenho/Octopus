@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="config">
+      <UniqueIdentifier>{488421f4-ab79-4545-bf30-aa3201301cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{c2f09185-b1f5-46c4-b7b3-cbda2d46dfd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{61594b12-a803-4a53-8e62-e5e7bdc88697}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dir_analysis.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dir_analysis.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="说明文档.txt">
+      <Filter>config</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\sh\automake.xml">
+      <Filter>config</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

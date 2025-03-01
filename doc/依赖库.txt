@@ -1,0 +1,21 @@
+------------------------------------------------------------------------------
+						“¿¿µø‚
+------------------------------------------------------------------------------
+1. openssl
+2. libcurl
+3. mysql c driver
+4. mongoc c driver
+5. luajit
+6. json
+7. tinyxml
+
+8. http_parse
+9. ikcp
+
+10.lua-protobuf
+11.lua-seri
+12.lua-bson
+13.lua-cjson
+14.lfs
+15.hotfix
+

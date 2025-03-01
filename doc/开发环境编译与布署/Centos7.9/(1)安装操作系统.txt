@@ -1,0 +1,112 @@
+-----------------------------------------------------------------------------	
+				安装CentOS 7.9 操作系统
+-----------------------------------------------------------------------------
+(0) VM虚拟机安装, 详见：https://blog.csdn.net/qq_48774513/article/details/123166868
+
+(1) 物理真机安装, 用UltraISO制作U盘安装, 选择CentOS-7-x86_64-DVD-2009.iso
+
+(2) 采用可视界面安装，并选择中文版安装，即采用最小安装
+
+	https://blog.csdn.net/Java_7C4/article/details/131625715
+
+	选择最小化安装， 并选中其中的 [开发工具] 和 [调试工具] 两项,  
+	在[网络和主机名]选择 [连接]
+	输入root密码
+
+	cat /etc/redhat-release 查看CentOS版本
+
+(3) 网络配置 (可选)
+
+	cd /etc/sysconfig/network-scripts
+	
+	找到ifcfg-eth字样的，如ifcfg-eth0
+
+	vi ifcfg-eth0
+	
+	然后根据你的网关编辑内容如下：
+
+	BOOTPROTO=static
+	IPADDR=192.168.1.101
+	NETMASK=255.255.255.0
+	GATEWAY=192.168.1.1
+
+(4) 设置DNS (可选)
+
+	vi /etc/resolv.conf
+
+	添加
+
+		nameserver 223.5.5.5
+		nameserver 8.8.8.8
+		nameserver 114.114.114.114
+
+(5) 改变源 (可选)
+
+	方式一：
+
+		yum install wget
+
+		mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+		wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+		mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.bak
+		wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+
+		yum clean all
+		yum makecache
+
+	方式二：（注：如果连wget都没安装的话）
+
+		先下载好 http://mirrors.aliyun.com/repo/Centos-7.repo 和 http://mirrors.aliyun.com/repo/epel-7.repo 两个文件, 
+		然后上传到/root目录
+
+		mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+		mv /root/Centos-7.repo /etc/yum.repos.d/CentOS-Base.repo
+
+		mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.bak
+		mv /root/epel-7.repo /etc/yum.repos.d/epel.repo
+
+		yum clean all
+		yum makecache
+
+(6) 更新软件, 并下载安装用到的库
+    
+	yum update
+	yum install net-tools
+	yum install wget
+	yum install unzip bzip2 
+	yum install cmake automake gdb gcc gcc-c++	
+	yum install bison
+
+	yum install openssl-devel
+	yum install zlib-devel
+	yum install cyrus-sasl-devel
+
+(7) 分配端口号（可选）
+
+	vim /etc/sysctl.conf
+
+	添加 net.ipv4.ip_local_port_range = 6000 59000
+
+	sysctl -p /etc/sysctl.conf 
+
+	cat /proc/sys/net/ipv4/ip_local_port_range
+
+	然后重启reboot机器
+
+(8) 关闭防火墙（可选）
+
+	systemctl stop firewalld
+
+
+(9) 调大Socket的句柄数
+
+	vim /etc/security/limits.conf
+
+	添加
+		*      soft    nofile  100000
+		*      hard    nofile  100000
+		*      soft    nproc   65535
+		*      hard    nproc   65535
+
+	然后重启reboot机器

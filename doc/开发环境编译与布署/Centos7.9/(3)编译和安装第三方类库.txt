@@ -1,0 +1,132 @@
+---------------------------------------------	
+			升级cmake
+---------------------------------------------
+1. cmake 3.20.3 
+
+	cd /root/software
+
+	A. 卸载旧版本下的cmake 2.8.12.2
+
+		cmake --version
+		yum remove cmake
+
+	B. 安装新的cmake 3.20.3
+
+		tar -xzvf cmake-3.20.3.tar.gz
+		cd cmake-3.20.3
+		./bootstrap
+
+		make -j2
+		make install
+
+		ln -s /usr/local/bin/cmake /usr/bin/
+
+
+---------------------------------------------	
+			编译和安装第三方库
+---------------------------------------------
+
+1. openssl 1.1.1d
+
+	cd /root/third_party
+	wget https://www.openssl.org/source/old/1.0.2/openssl-1.1.1d.tar.gz
+	tar -zxvf openssl-1.1.1d.tar.gz
+	cd openssl-1.1.1d
+	make clean
+	./config --prefix=/opt/openssl --openssldir=/opt/ssl
+	make -j2
+	make install
+
+	cp /opt/openssl/lib/libssl.a /root/workspace/Octopus/lib/linux64
+	cp /opt/openssl/lib/libcrypto.a /root/workspace/Octopus/lib/linux64
+
+	
+2. curl 7.59.0 (修改版)
+
+	cd /root/third_party
+	tar -zxvf curl-7.59.0.tar.gz
+	cd curl-7.59.0
+	make clean
+	./configure --with-ssl=/opt/openssl --prefix=/opt/curl
+	make -j2
+	make install
+	cp /opt/curl/lib/libcurl.a /root/workspace/Octopus/lib/linux64
+	
+
+	注：需要想通过Octopus_linux.sln调试Octopus, 那么需要把openssl.c修改一下代码，否则链接通不过
+	修改的内容如下:
+	ssleay_value = OpenSSL_version_num();
+	改为
+	ssleay_value = SSLEAY_VERSION_NUMBER;
+
+3. lua 5.4.7
+	
+	cd /root/third_party
+	yum install libtermcap-devel ncurses-devel libevent-devel readline-devel -y
+	
+	tar -zxvf lua-5.4.7.tar.gz
+	cd lua-5.4.7
+	make linux
+	cp src/liblua.a /root/workspace/Octopus/lib/linux64
+
+4. tinyxml 2.6.2
+
+	cd /root/third_party
+	tar -zxvf tinyxml-2.6.2.tar.gz
+	cd tinyxml-2.6.2
+	make clean
+	make -j2
+	cp libtinyxml.a /root/workspace/Octopus/lib/linux64/libtinyxml.a
+
+5. jsoncpp 0.10.7
+
+	cd /root/third_party
+	tar -zxvf jsoncpp-0.10.7.tar.gz
+	cd jsoncpp-0.10.7
+
+	mkdir -p build/Debug
+	cd build/Debug
+	make clean
+	cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_STATIC_LIBS=ON -DARCHIVE_INSTALL_DIR=. -G "Unix Makefiles" ../..
+	make -j2
+	find . -name *.a
+	cp src/lib_json/libjsoncpp.a /root/workspace/Octopus/lib/linux64/libjsonD.a
+
+	cd /root/third_party
+	cd jsoncpp-0.10.7
+	mkdir -p build/Release
+	cd build/Release
+	make clean
+	cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC_LIBS=ON -DARCHIVE_INSTALL_DIR=. -G "Unix Makefiles" ../..
+	make -j2
+	find . -name *.a
+	cp src/lib_json/libjsoncpp.a /root/workspace/Octopus/lib/linux64/libjson.a
+
+6. mongo-c-driver
+
+	cd /root/third_party
+	yum install cyrus-sasl-devel
+
+	tar -zxvf mongo-c-driver-1.17.6.tar.gz
+	cd mongo-c-driver-1.17.6
+	mkdir cmake-build
+	cd cmake-build
+	cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF .. -DOPENSSL_ROOT_DIR=/opt/openssl
+
+	--------------------------------------------------------------------------------------------------------------------------------	
+	打开环境变量文件
+	vi /etc/profile
+	
+	C_INCLUDE_PATH=$C_INCLUDE_PATH:/opt/openssl/include
+	CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/opt/openssl/include
+	LIBRARY_PATH=$LIBRARY_PATH:/opt/openssl/lib
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/openssl/lib
+
+	export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL C_INCLUDE_PATH CPLUS_INCLUDE_PATH LIBRARY_PATH LD_LIBRARY_PATH
+	--------------------------------------------------------------------------------------------------------------------------------
+
+	make -j2
+	make install
+
+	cp /usr/local/lib64/libmongoc-static-1.0.a /root/workspace/Octopus/lib/linux64
+	cp /usr/local/lib64/libbson-static-1.0.a /root/workspace/Octopus/lib/linux64

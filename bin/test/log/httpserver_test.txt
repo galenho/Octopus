@@ -1,0 +1,34 @@
+2024-09-07 20:08:36 [INFO]  {
+    ["uri"] = "/do"
+    ["url"] = "/do?mapId=101&subline=1"
+    ["body_params"] = {
+    }
+    ["method"] = "GET"
+    ["params"] = {
+        ["mapId"] = "101"
+        ["subline"] = "1"
+    }
+    ["body"] = ""
+    ["head_params"] = {
+        ["Host"] = "127.0.0.1:30061"
+        ["Content-Type"] = ""
+        ["Accept"] = "*/*"
+    }
+}
+2024-09-07 20:09:27 [INFO]  {
+    ["body"] = ""
+    ["body_params"] = {
+    }
+    ["head_params"] = {
+        ["Accept"] = "*/*"
+        ["Content-Type"] = ""
+        ["Host"] = "127.0.0.1:30061"
+    }
+    ["params"] = {
+        ["mapId"] = "101"
+        ["subline"] = "1"
+    }
+    ["method"] = "GET"
+    ["url"] = "/do?mapId=101&subline=1"
+    ["uri"] = "/do"
+}

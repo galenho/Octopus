@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!--(0) LOG_LEVEL_DEBUG, (1) LOG_LEVEL_INFO, (2) LOG_LEVEL_WARN, (3) LOG_LEVEL_ERROR, (4) LOG_LEVEL_FATAL-->
+	<log_level>1</log_level>
+	<log_need_date>0</log_need_date>
+	<log_max_buff>0</log_max_buff>
+	<loop_interval>100</loop_interval>
+	<lua_file>main.lua</lua_file>
+</root>

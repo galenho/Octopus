@@ -1,0 +1,1 @@
+start "aoi_test" ../Octopus.exe log/aoi_test test.xml aoi_test.lua

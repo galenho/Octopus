@@ -1,0 +1,44 @@
+<div>
+	<div id="result"></div>
+	<form class="form-inline" action="">
+		<div class="form-group">
+			<input type="text" class="form-control" id="m" autocomplete="off" placeholder="请输入您的昵称"/>
+		</div>
+		<button type="submit" class="btn btn-info">发送</button>
+	</form>
+</div>
+
+<script>
+if ("WebSocket" in window) 
+{
+	var ws = new WebSocket("ws://127.0.0.1:8810");
+	var result = document.querySelector('#result');
+	ws.onopen = function() 
+	{
+		result.innerHTML = '已连接上！';
+		console.log('已连接上！');
+	}
+
+	ws.onmessage = function(e) 
+	{
+		result.innerHTML = e.data;
+		result.innerHTML = e.data;
+	}
+
+	ws.onclose = function() 
+	{
+		result.innerHTML = '连接已关闭！';
+	}
+
+	document.querySelector('form').onsubmit = function(e) 
+	{
+		var msg = document.querySelector('#m').value;
+		ws.send(msg);
+		return false;
+	}
+} 
+else 
+{
+	alert('您的浏览器不支持 WebSocket！');
+}
+</script>

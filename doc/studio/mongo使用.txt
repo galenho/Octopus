@@ -1,0 +1,139 @@
+1. mongo 4.0安装
+
+    use admin
+     
+    db.createUser( {user: "root", pwd: "88104725galenho",roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
+
+
+2. monog常用操作
+
+	mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
+
+	mongo -u "root" --authenticationDatabase "admin" -p "88104725galenho"
+
+	db.version();
+
+	show dbs;
+
+	use game;
+
+	show tables;
+
+	db.player.find()
+	: true})
+
+	db.player.find({"born_server" : "gs10001"}, {"pid" : true})
+
+	db.player.find({"account_idx" : 1}, {})
+
+	db.player.find({"pid" : 10002}, {"pid" 
+	db.player.find()
+
+	db.player.getIndexes()
+
+	db.player.remove({})
+
+	db.account_info.createIndex({"account_idx":1})
+	db.account_info.find({"account_idx":{$gt:0}},{}).limit(10)
+
+
+
+	db.account.remove({})
+
+
+
+	db.player.insert([
+	   { "pid" : 100000000033333333 }])
+
+
+	db.account.insert([
+	   { "account_idx" : 1, "account_name" : "test", "password": "123456" }
+	   { "account_idx" : 1, "account_name" : "galen", "password": "123456" }
+	   { "account_idx" : 1, "account_name" : "galen", "password": "123456" }
+	   { "account_idx" : 1, "account_name" : "galen", "password": "123456" }
+	])
+
+	db.students.find()
+
+	db.public_data.update({'name':'serial_idx110'},{$inc:{'value':1}}, {upsert:true})
+
+	db.students.updateMany(
+	   { grades: { $gte: 100 } },
+	   { $set: { "grades.$[element]" : 100 } },
+	   { arrayFilters: [ { "element": { $gte: 100 } } ] }
+	)
+
+	db.students.find()
+
+
+
+原子操作:
+
+db.public_data.findAndModify({ query:{name:"serial_idx3"}, update:{$inc:{value:1}}})
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+存储过程:
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+https://zhuanlan.zhihu.com/p/59895938
+
+
+db.system.js.save({
+_id : "SP_CREATE_CHARACTER",
+value: function(pid, name, account_idx, type_idx, create_time, max_char_count)
+	{
+		var count = db.player.find({'account_idx' : account_idx}, {'pid': true}).count(); 
+		if (count >= max_char_count)
+		{
+			return 1; //已达到最大的角色数量
+		}
+		
+		count = db.player.find({'name' : name}, {'name': true}).count(); 
+		if (count > 0)
+		{
+			return 2; //角色名重复
+		}
+
+		db.player.insert({'pid' : pid, 'name' : name, 'level' : 1, 'account_idx' : account_idx, 'create_time' : create_time, 'last_update_time' : create_time});
+
+		count = db.account.find({}, {'account_idx' : account_idx}, {'account_idx': true}).count();
+		if (count == 0)
+		{
+			db.account.insert({'account_idx' : account_idx, 'gold' : 0});
+		}
+
+		return 0;
+	}, 
+description : "创建角色"})
+		
+
+db.system.js.find().pretty();
+
+db.player.find().pretty();
+
+db.system.runCommand({
+    "eval":"SP_CREATE_CHARACTER(2, 'player_2', 2, 1, 111111111, 4)",
+    "nolock": true
+});
+
+db.system.js.remove({});
+
+db.system.js.drop() 
+-------------------------------------------------------------------------------------------------------------------------------------------------
+参考文档:
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+MongoDB 教程 (菜鸟教程)
+
+	https://www.runoob.com/mongodb/mongodb-tutorial.html
+
+
+MongoDB常用操作(与SQL语句的对比)
+
+	https://blog.csdn.net/wangli61289/article/details/40623097
+
+
+MongoDB Wire Protocol:
+
+	https://docs.mongodb.com/v4.2/reference/mongodb-wire-protocol/

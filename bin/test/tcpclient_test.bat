@@ -1,0 +1,1 @@
+start "tcpclient_test" ../Octopus.exe log/tcpclient_test test.xml tcpclient_test.lua

@@ -1,0 +1,209 @@
+1. 列出当前目录下的所有文件
+
+	ls -a
+
+2. 切换文件目录
+
+	cd
+
+3. 创建目录
+
+	mkdir
+
+4. 删除文件或目录
+
+	rm
+	rm -r    (递归, 注意不要随意使用f)
+
+5. 移动文件或目录
+
+	mv
+
+6. 拷贝文件
+
+	cp 
+
+7. 一屏查看文件内容
+
+	cat 文件名
+
+8. 显示当前目录路径
+
+	pwd
+
+9. 筛选文本
+	
+	grep 字符 文件名
+
+	cat -n 2024-07-18.log |grep -E "6000011002674" >temp.txt
+ 
+10. 查找文件
+	
+	find ./ -name "mysql"
+
+11. 软链接
+
+	ln -s libstdc++.so.6.0.21 libstdc++.so.6       创建当前目录下a的符号链接b
+
+12. 查看磁盘容量
+
+	df
+
+13. 查看目前目录容量
+
+	du -sh /root/workspace
+
+14. 查看系统分区信息
+
+	fdisk -l
+
+15. 查看系统信息
+
+	cat /etc/redhat-release  查看系统版本
+	lscpu 查看CPU
+
+16. 挂载U盘
+
+	mount /dev/sdb4 /mnt/usb
+	umount /dev/sdb4
+
+	注：如果没有USB模块的话，modprobe usb-storage
+
+17. tar解压与压缩
+
+	tar -zxvf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar	(解压)
+
+	tar -czvf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar	(压缩)
+
+18. 重启系统
+
+	reboot
+
+19. 关机
+
+	shutdown -h now
+
+20. 杀死进程
+
+	kill 999
+
+21. 显示进程管理器
+
+	top
+	htop
+
+22. 用户管理
+
+	groupadd
+	useradd
+
+23. 文件权限
+
+	chmod a+x 
+	chmod -R 750 *
+
+24. 安装软件
+
+	yum -y install mysql
+	yum remove mysql
+
+	rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm --force --nodeps
+
+25. 下载软件
+
+	wget http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+
+26. 查看端口
+
+	netstat 
+			-a (all)显示所有选项，默认不显示LISTEN相关
+			-t (tcp)仅显示tcp相关选项
+			-u (udp)仅显示udp相关选项
+			-n 拒绝显示别名，能显示数字的全部转化成数字。
+			-l 仅列出有在 Listen (监听) 的服务状态
+			-p 显示建立相关链接的程序名
+			-r 显示路由信息，路由表
+			-e 显示扩展信息，例如uid等
+			-s 按各个协议进行统计
+			-c 每隔一个固定时间，执行该netstat命令。
+
+	netstat -nat |awk '{print $6}'|sort|uniq -c  统计各种状态的数量
+
+			1 established)
+		    104 ESTABLISHED
+		        1 Foreign
+		      21 LISTEN
+		        1 TIME_WAIT
+
+
+27. 查看网络IP
+
+	ifconfig
+
+28. tmux
+
+	tmux new -s excalidraw
+	tmux new -s frps
+
+29. 内网RelWithDebInfo服务器的调试
+
+	ps aux | grep cross_S2
+	gdb -p 19076
+
+	break StatueHelper.cpp:181
+	c
+	p paramId
+	p guildId
+
+
+	break StatueHelper.cpp:171
+	p mapServerStatue
+	p ((CServerStatueData*)0x7fa3cf807680)->_mapMapStatue
+	p ((CStatueData*)0x7fa3d0ce3000)->_paramId
+	c
+
+	quit
+
+
+	ps aux | grep copy
+	gdb -p 21873
+	break ICopyImpl.cpp:86
+	break ICopyImpl.cpp:2765
+	
+
+
+	ps aux | grep CellApp_test_S9003
+	gdb -p 17257
+	break WeatherHelper.cpp:138
+
+30. 自动化gdb调试脚本
+
+	gdb -p 27200 --batch --command=cmd.gdb
+
+	//--------------------------------
+	// 以下为cmd.gdb调试脚本
+	//--------------------------------
+	break StatueHelper.cpp:206
+	c
+	p paramId
+	p guildId
+
+
+
+
+31. 增加ssh的断开时间 (24小时客户端无响应后才断开)
+
+	vi /etc/ssh/sshd_config
+		ClientAliveInterval = 3600
+		ClientAliveCountMax = 24
+
+32. 增加Socket的句柄数
+
+	vim /etc/security/limits.conf 在后面添加
+
+	*      soft    nofile  100000
+	*      hard    nofile  100000
+	*      soft    nproc   65535
+	*      hard    nproc   65535
+
+	reboot重启
