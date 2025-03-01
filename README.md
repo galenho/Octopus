@@ -4,7 +4,6 @@
 
 作者:	galen  
 &ensp;QQ: 88104725  
-[https://gitee.com/galenho/Octopus.git](https://gitee.com/galenho/Octopus.git) 
 	
 # **一、构建**
 	
