@@ -1,0 +1,6 @@
+2025-09-20 09:02:49 [INFO]  number:2001
+2025-09-20 09:02:49 [INFO]  {
+    ["account_name"] = "test1"
+    ["login_result"] = 1
+    ["account_idx"] = 1
+}

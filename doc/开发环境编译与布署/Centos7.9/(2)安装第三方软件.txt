@@ -1,0 +1,207 @@
+---------------------------------------------	
+			安装第三方软件
+---------------------------------------------
+
+1. 安装配置mysql数据库
+	
+	//----------------------------------------------------------------
+		第1步: 删除老的mysql版本 (可选)
+	//----------------------------------------------------------------
+	yum remove mysql mysql-server mysql-libs mysql-server;
+
+	find / -name mysql 将找到的相关东西delete掉(rm -rf /usr/lib64/mysql)；
+
+	rpm -qa|grep mysql(查询出来的东东yum remove掉)
+
+	rm /etc/my.cnf
+
+	//----------------------------------------------------------------
+		第2步: 安装相应的rpm包
+	//----------------------------------------------------------------
+	cd /root/software
+	wget http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+
+	yum -y install numactl
+	yum -y install libaio-devel             #安装依赖包
+
+	tar -xvf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+
+	rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm --force --nodeps
+	rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm --force --nodeps
+	rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm --force --nodeps
+	rpm -ivh mysql-community-server-5.7.28-1.el7.x86_64.rpm --force --nodeps
+	rpm -ivh mysql-community-devel-5.7.28-1.el7.x86_64.rpm --force --nodeps
+	
+
+	//----------------------------------------------------------------
+		第3步：初始化数据库
+	//----------------------------------------------------------------  
+
+	mysqld --initialize --user=mysql
+
+	cat /var/log/mysqld.log  #查看生成的密码  ?mcg=>kB!5qa
+
+	service mysqld restart
+	mysql -uroot -p
+	输入密码: ?mcg=>kB!5qa
+
+
+	alter user 'root'@'localhost' identified by '88104725galenho';  #修改密码
+	exit
+
+	//----------------------------------------------------------------
+		第4步: 关闭SELinux和防火墙 (可选)
+	//----------------------------------------------------------------
+
+	(1). 永久关闭SELinux
+
+	vi /etc/sysconfig/selinux
+	vi /etc/selinux/config
+
+	把SELINUX=enforcing 改为 SELINUX=disabled
+
+
+	(2). 永久关闭防火墙
+
+	systemctl disable firewalld.service   
+
+	//----------------------------------------------------------------
+		第5步: 修改/etc/my.cnf文件，编辑配置文件如下
+	//----------------------------------------------------------------
+
+	vi /etc/my.cnf
+	
+	输入以下内容： (注：http://imysql.com/my-cnf-wizard.html 自动生成my.cnf文件)
+	
+	[client]
+	port = 3306
+
+	[mysqld]
+	port = 3306
+
+	character-set-server = utf8
+	collation-server = utf8_unicode_ci
+
+	//----------------------------------------------------------------
+		第6步: 重启mysql
+	//----------------------------------------------------------------
+	service mysqld restart
+
+	//----------------------------------------------------------------
+		第7步: 用户授权 
+	//----------------------------------------------------------------
+	mysql -uroot -p
+	输入密码: 88104725galenho
+
+	mysql>
+	grant ALL PRIVILEGES on *.* to root@'127.0.0.1' Identified by '88104725galenho' with grant option;
+	grant ALL PRIVILEGES on *.* to root@'localhost' Identified by '88104725galenho' with grant option;
+	grant ALL PRIVILEGES on *.* to root@'%' Identified by '88104725galenho' with grant option;
+	grant ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+	FLUSH PRIVILEGES;
+	EXIT
+
+	//----------------------------------------------------------------
+		第8步: 复制开发库和头文件(可选)
+	//----------------------------------------------------------------
+	cp /usr/lib64/mysql/libmysqlclient.a /root/workspace/Octopus/lib/
+	cp -R /usr/include/mysql /root/workspace/Octopus/include/
+
+2. 安装配置mongo 4.0.0数据库 
+
+	//----------------------------------------------------------------
+		第1步:
+	//----------------------------------------------------------------
+	cd /root/software
+	tar xzvf mongodb-linux-x86_64-rhel70-4.0.0.tgz -C /opt/
+	cd /opt/
+	mv mongodb-linux-x86_64-rhel70-4.0.0 /usr/local/mongodb
+	
+	mkdir -p /usr/local/mongodb/data/db
+	mkdir -p /usr/local/mongodb/logs
+
+	//----------------------------------------------------------------
+		第2步: 
+	//----------------------------------------------------------------
+	cd /usr/local/mongodb/bin
+	vi mongodb.conf
+
+		dbpath = /usr/local/mongodb/data/db
+		logpath = /usr/local/mongodb/logs/mongodb.log
+		fork = true
+		auth=true
+		bind_ip=0.0.0.0
+	
+	//----------------------------------------------------------------
+		第3步: 
+	//----------------------------------------------------------------
+	vi /etc/profile
+	
+		在文本的末尾处添加
+
+		export MONGODB_HOME=/usr/local/mongodb
+		export PATH=$PATH:$MONGODB_HOME/bin
+
+	source /etc/profile
+
+	//----------------------------------------------------------------
+		第4步: 
+	//----------------------------------------------------------------
+	/usr/local/mongodb/bin/mongod -f /usr/local/mongodb/bin/mongodb.conf
+	mongo
+
+	use admin
+	db.createUser( {user: "root",pwd: "88104725galenho",roles: [ { role: "root", db: "admin" } ]})
+	exit
+
+	mongo -u "root" --authenticationDatabase "admin" -p '88104725galenho'
+	exit
+
+	//----------------------------------------------------------------
+		第5步: 开机启动
+	//----------------------------------------------------------------
+	vi /lib/systemd/system/mongodb.service
+	输入以下内容：
+
+	[Unit]
+	Description=mongodb
+	After=network.target remote-fs.target nss-lookup.target
+
+	[Service]
+	Type=forking
+	ExecStart=/usr/local/mongodb/bin/mongod -f /usr/local/mongodb/bin/mongodb.conf
+	ExecReload=/bin/kill -s HUP $MAINPID
+	ExecStop=/usr/local/mongodb/bin/mongod --shutdown -f /usr/local/mongodb/bin/mongodb.conf
+	PrivateTmp=true
+
+	[Install]
+	WantedBy=multi-user.target
+
+	重读服务
+
+		systemctl daemon-reload
+
+	启动服务
+
+		systemctl start mongodb.service
+
+	关闭服务
+
+		systemctl stop mongodb.service
+
+	开机启动
+
+		systemctl enable mongodb.service
+
+3. 安装tmux
+
+	yum install libevent-devel
+	yum install ncurses-devel
+
+	cd /root/software
+	wget http://downloads.sourceforge.net/tmux/tmux-1.6.tar.gz
+	tar zxvf tmux-1.6.tar.gz
+	cd tmux-1.6
+	./configure
+	make -j2
+	make install

@@ -1,0 +1,261 @@
+----------------------------------------------------------------------------------
+--                全局函数 (注: 不可以热更新，一般不需要改变)
+----------------------------------------------------------------------------------
+g_log_level = 1
+
+function LOG_DEBUG(str, ...)
+    if 0 < g_log_level  then
+        return
+    end
+
+    octopus.write_log(string.format("[DEBUG] %s", string.format(str, ...)), 0)
+end
+
+function LOG_INFO(str, ...)
+    if 1 < g_log_level  then
+        return
+    end
+
+    octopus.write_log(string.format("[INFO] %s", string.format(str, ...)), 1)
+end
+
+function LOG_WARN(str, ...)
+    if 2 < g_log_level  then
+        return
+    end
+
+    octopus.write_log(string.format("[WARN] %s", string.format(str, ...)), 2)
+end
+
+function LOG_ERROR(str, ...)
+    if 3 < g_log_level  then
+        return
+    end
+
+    octopus.write_log(string.format("[ERROR] %s", string.format(str, ...)), 3)
+end
+
+function LOG_FATAL(str, ...)
+    if 4 < g_log_level  then
+        return
+    end
+
+	octopus.write_log(string.format("[FATAL] %s", string.format(str, ...)), 4)
+end
+
+function TableToString(tb, PrintMetatable)
+    if type(tb) ~= "table" then
+		return (" " .. type(tb) .. ":" .. tostring(tb))
+    end
+
+    local function _list_table(tb, table_list, level)
+        local ret = ""
+        if level >= 5 then -- 最大4层
+            return ret
+        end
+
+        local indent = string.rep(" ", level * 4)
+
+        for k, v in pairs(tb) do
+            local quo = type(k) == "string" and "\"" or ""
+            ret = ret .. indent .. "[" .. quo .. tostring(k) .. quo .. "] = "
+
+            if type(v) == "table" then
+                local t_name = table_list[v]
+                if t_name then
+                    ret = ret .. tostring(v) .. " -- > [\"" .. t_name .. "\"]\n"
+                else
+                    table_list[v] = tostring(k)
+                    ret = ret .. "{\n"
+                    ret = ret .. _list_table(v, table_list, level+1)
+                    ret = ret .. indent .. "}\n"
+                end
+            elseif type(v) == "string" then
+                ret = ret .. "\"" .. tostring(v) .. "\"\n"
+            else
+                ret = ret .. tostring(v) .. "\n"
+            end
+        end
+
+		if PrintMetatable then
+			local mt = getmetatable(tb)
+			if mt then
+				ret = ret .. "\n"
+				local t_name = table_list[mt]
+				ret = ret .. indent .. "<metatable> = "
+
+				if t_name then
+					ret = ret .. tostring(mt) .. " -- > [\"" .. t_name .. "\"]\n"
+				else
+					ret = ret .. "{\n"
+					ret = ret .. _list_table(mt, table_list, level+1)
+					ret = ret .. indent .. "}\n"
+				end
+
+			end
+		end
+
+        return ret
+    end
+
+    local ret = " {\n"
+    local table_list = {}
+    table_list[tb] = "root table"
+    ret = ret .. _list_table(tb, table_list, 1)
+    ret = ret .. "}"
+    return ret
+end
+
+function dump(obj)
+	print(TableToString(obj, false))
+end
+
+function PrintTraceInfo()
+    local str = debug.traceback("", 2)
+    LOG_WARN(str)
+    
+    local startLevel = 2 --0:表示getinfo本身, 
+						 --1:表示调用getinfo的函数(PrintTraceInfo), 
+						 --2:表示调用PrintLuaStack的函数,可以想象一个getinfo(0级)在顶的栈.
+    local maxLevel = 5   --最大递归5层
+    for level = startLevel, maxLevel do
+        -- 打印堆栈每一层
+        local info = debug.getinfo(level, "nSl")
+        if info == nil then 
+			break 
+		end
+        
+        LOG_WARN("--------------------------------------------------------------------")
+        LOG_WARN("[ line : %-4d] %-20s :: %s", info.currentline, info.name or "", info.source or "")
+
+        -- 打印该层的参数与局部变量
+        if level <= 3 then
+            local index = 1 --1表示第一个参数或局部变量, 依次类推
+            while true do
+                local name, value = debug.getlocal( level, index )
+                if name == nil or name == "(*temporary)" or name == "self" then 
+    				break 
+    			end
+       
+                if value ~= nil then
+                    LOG_WARN("\t%s = %s", name, TableToString(value, false) )
+                end
+
+                index = index + 1
+            end
+        end
+    end
+    
+    LOG_WARN("--------------------------------------------------------------------")
+end
+
+function safe_call(f, ...)
+    local ok, err = pcall(f, ...)
+    if not ok then
+        PrintTraceInfo()
+    end
+    return ok, err
+end
+
+function table_clone(object)
+    local lookup_table = {}
+    local function _copy(object)
+        if type(object) ~= "table" then
+            return object
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end
+        local newObject = {}
+        lookup_table[object] = newObject
+        for key, value in pairs(object) do
+            newObject[_copy(key)] = _copy(value)
+        end
+        return setmetatable(newObject, getmetatable(object))
+    end
+    return _copy(object)
+end
+
+function table_len(t)
+    local len=0
+    for k, v in pairs(t) do
+        len=len+1
+    end
+    return len
+end
+
+function table_empty(t)
+    for k, v in pairs(t) do
+        return false
+    end
+    return true
+end
+
+function table_replace(dst, src)
+    if (src == nil or dst == nil) then
+        return
+    end
+
+    if (type(src) ~= "table" or type(dst) ~= "table") then
+        return
+    end
+
+    for k, v in pairs(src) do
+        dst[k] = v
+    end
+end
+
+function table_path(path)
+    local keys = {}
+    for key in string.gmatch(path, "[^.]+") do
+		local new_key = tonumber(key)
+		if new_key then
+			table.insert(keys, new_key) -- 整型key
+		else
+			table.insert(keys, key) -- 字符串key
+		end
+    end
+	
+    return keys
+end
+
+function table_update(tbl, keys, value)
+    local current = tbl
+    local len = #keys
+    for i = 1, len - 1 do
+        local key = keys[i]
+        if current[key] == nil then
+            current[key] = {}
+        elseif type(current[key]) ~= "table" then
+            error("Path conflict: " .. key .. " is not a table")
+        end
+        current = current[key]
+    end
+    
+	current[keys[len]] = value
+	
+    return tbl
+end
+
+function table_remove(tbl, keys)
+    local current = tbl
+    local len = #keys
+    for i = 1, len - 1 do
+        local key = keys[i]
+        if current[key] == nil then
+            current[key] = {}
+        elseif type(current[key]) ~= "table" then
+            error("Path conflict: " .. key .. " is not a table")
+        end
+        current = current[key]
+    end
+    
+    current[keys[len]] = nil
+end
+
+function DoTime(ms)
+	local end_time = octopus.get_ms_time() + ms;
+	while octopus.get_ms_time() < end_time do
+
+	end
+end
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="protobuf.js"></script>
+</head>
+
+<body>
+<div>
+	<div id="result"></div>
+	<form class="form-inline" action="">
+		<div class="form-group">
+			<input type="text" value = "1" class="form-control" id="m1" autocomplete="off" placeholder="platform_idx"/>
+			<input type="text" value = "test1" class="form-control" id="m2" autocomplete="off" placeholder="account_name"/>
+			<input type="text" value = "123456" class="form-control" id="m3" autocomplete="off" placeholder="password"/>
+		</div>
+		<button type="submit" class="btn btn-info">发送</button>
+	</form>
+</div>
+
+<script>
+	if ("WebSocket" in window) 
+	{
+		var ws = new WebSocket("ws://127.0.0.1:8810");
+		ws.binaryType = 'arraybuffer';
+
+		var result = document.querySelector('#result');
+		ws.onopen = function() 
+		{
+			result.innerHTML = '已连接上！';
+		}
+
+		ws.onmessage = function(e) 
+		{
+			
+		}
+
+		ws.onclose = function() 
+		{
+			result.innerHTML = '连接已关闭！';
+		}
+
+		document.querySelector('form').onsubmit = function(e) 
+		{
+			// 直接内联定义 .proto 内容（替代外部文件）
+			const protoContent = `
+			  syntax = "proto3";
+		      message C2SReqClientLogin 
+			  {
+			  		int32 platform_idx = 1;
+				    string account_name = 2;
+				    string password = 3;
+				}`;
+
+		    // 动态解析
+		    const root = protobuf.parse(protoContent, { keepCase: true }).root;
+		    const Message = root.lookupType("C2SReqClientLogin");
+
+			// 创建对象
+			var m1 = document.querySelector('#m1').value;
+			var m2 = document.querySelector('#m2').value;
+			var m3 = document.querySelector('#m3').value;
+			
+			const msg = Message.create({
+			  platform_idx: m1,
+			  account_name: m2,
+			  password: m3
+		    });
+
+		    // 序列化
+		    const data = Message.encode(msg).finish();
+
+			var total_len = data.length + 4;
+	        var buffer = new ArrayBuffer(total_len);
+	        var dataview = new DataView(buffer);
+			dataview.setUint32(0, 1001, true);
+		
+	        var uint4Buf = new Uint8Array(buffer);
+	        uint4Buf.set(data, 4);
+
+			ws.send(buffer);
+			
+			return false;
+		}
+	} 
+	else 
+	{
+		alert('您的浏览器不支持 WebSocket！');
+	}
+</script>
+</body>
+</html>

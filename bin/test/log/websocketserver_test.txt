@@ -1,0 +1,6 @@
+2025-09-20 09:02:49 [INFO]  number:1001
+2025-09-20 09:02:49 [INFO]  {
+    ["platform_idx"] = 1
+    ["account_name"] = "galenho"
+    ["password"] = "123456"
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message C2SReqClientLogin 
+{
+    int32 platform_idx = 1;
+    string account_name = 2;
+    string password = 3;
+}
+
+message S2CRepClientLogin 
+{
+    int32 login_result = 1;
+    int32 account_idx	= 2;
+	string account_name= 3;
+}

@@ -1,0 +1,70 @@
+2025-09-20 09:02:19 Error: string mongo_test.lua:88: attempt to call method 'insert_many' (a nil value)
+2025-09-20 09:02:19 [ERROR] 
+stack traceback:
+	[C]: in function 'insert_many'
+	mongo_test.lua:88: in function 'Test'
+	mongo_test.lua:106: in main chunk
+2025-09-20 09:02:19 [ERROR] --------------------------------------------------------------------
+2025-09-20 09:02:19 [ERROR] [ line : -1  ] insert_many          :: =[C]
+2025-09-20 09:02:19 [ERROR] --------------------------------------------------------------------
+2025-09-20 09:02:19 [ERROR] [ line : 88  ] Test                 :: @mongo_test.lua
+2025-09-20 09:02:19 [ERROR] 	ret =  number:1
+2025-09-20 09:02:19 [ERROR] --------------------------------------------------------------------
+2025-09-20 09:02:19 [ERROR] [ line : 106 ]                      :: @mongo_test.lua
+2025-09-20 09:02:19 [ERROR] 	util =  {
+    ["HotUpdateAllCode"] = function: 0x012790ce1f78
+    ["HotUpdateAllTable"] = function: 0x012790cf9130
+    ["getFileName"] = function: 0x012790d02268
+    ["GetReloadFileName"] = function: 0x012790d03078
+    ["getExtension"] = function: 0x012790d057a0
+    ["HotUpdateTable"] = function: 0x012790cf4de0
+    ["GetDirFiles"] = function: 0x012790d06540
+    ["Split"] = function: 0x012790ce1fb8
+    ["HotUpdateCode"] = function: 0x012790cf4050
+}
+2025-09-20 09:02:19 [ERROR] 	begin_time =  number:0
+2025-09-20 09:02:19 [ERROR] 	end_time =  number:0
+2025-09-20 09:02:19 [ERROR] 	case =  number:1
+2025-09-20 09:02:19 [INFO] -----------------------------------------------------------------------------------------------
+
+2025-09-20 09:02:19 [INFO]  {
+}
+2025-09-20 09:02:19 [INFO]  {
+}
+2025-09-20 09:02:19 [INFO]  {
+}
+2025-09-20 09:03:02 Error: string mongo_test.lua:88: attempt to call method 'insert_many' (a nil value)
+2025-09-20 09:03:02 [ERROR] 
+stack traceback:
+	[C]: in function 'insert_many'
+	mongo_test.lua:88: in function 'Test'
+	mongo_test.lua:106: in main chunk
+2025-09-20 09:03:02 [ERROR] --------------------------------------------------------------------
+2025-09-20 09:03:02 [ERROR] [ line : -1  ] insert_many          :: =[C]
+2025-09-20 09:03:02 [ERROR] --------------------------------------------------------------------
+2025-09-20 09:03:02 [ERROR] [ line : 88  ] Test                 :: @mongo_test.lua
+2025-09-20 09:03:02 [ERROR] 	ret =  number:1
+2025-09-20 09:03:02 [ERROR] --------------------------------------------------------------------
+2025-09-20 09:03:02 [ERROR] [ line : 106 ]                      :: @mongo_test.lua
+2025-09-20 09:03:02 [ERROR] 	util =  {
+    ["getFileName"] = function: 0x02785b7a3510
+    ["GetReloadFileName"] = function: 0x02785d0739c0
+    ["getExtension"] = function: 0x02785d076078
+    ["HotUpdateTable"] = function: 0x02785d078ff8
+    ["GetDirFiles"] = function: 0x02785d0739f8
+    ["Split"] = function: 0x02785d073a68
+    ["HotUpdateAllCode"] = function: 0x02785d0773f8
+    ["HotUpdateAllTable"] = function: 0x02785d078f80
+    ["HotUpdateCode"] = function: 0x02785d078fc0
+}
+2025-09-20 09:03:02 [ERROR] 	begin_time =  number:0
+2025-09-20 09:03:02 [ERROR] 	end_time =  number:0
+2025-09-20 09:03:02 [ERROR] 	case =  number:1
+2025-09-20 09:03:02 [INFO] -----------------------------------------------------------------------------------------------
+
+2025-09-20 09:03:02 [INFO]  {
+}
+2025-09-20 09:03:02 [INFO]  {
+}
+2025-09-20 09:03:02 [INFO]  {
+}

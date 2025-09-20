@@ -1,0 +1,28 @@
+2025-09-20 09:02:14 [INFO]  {
+    [1] = {
+        ["scene_name"] = "kof"
+        ["type_idx"] = 101
+        ["map_id"] = 1
+    }
+}
+2025-09-20 09:02:14 [INFO]  {
+    [1] = {
+        ["scene_name"] = "kof"
+        ["type_idx"] = 101
+        ["map_id"] = 1
+    }
+}
+2025-09-20 09:02:55 [INFO]  {
+    [1] = {
+        ["type_idx"] = 101
+        ["map_id"] = 1
+        ["scene_name"] = "kof"
+    }
+}
+2025-09-20 09:02:55 [INFO]  {
+    [1] = {
+        ["type_idx"] = 101
+        ["map_id"] = 1
+        ["scene_name"] = "kof"
+    }
+}

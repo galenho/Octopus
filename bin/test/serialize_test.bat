@@ -1,0 +1,1 @@
+start "serialize_test" ../Octopus.exe . log/serialize_test test.xml serialize_test.lua

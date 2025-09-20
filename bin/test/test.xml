@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <ip>192.168.3.102</ip>
+    <port>6100</port>
+    <start_id>1</start_id>
+    <end_id>500</end_id>
+    <cases_id>1</cases_id>
+    <area_idx>1</area_idx>
+</root>

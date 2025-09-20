@@ -1,0 +1,1 @@
+../Octopus . log/luaJIT_test test.xml luaJIT_test.lua

@@ -1,0 +1,35 @@
+2025-09-20 09:01:54 [INFO]  {
+    ["params"] = {
+        ["subline"] = "1"
+        ["mapId"] = "101"
+    }
+    ["body"] = ""
+    ["head_params"] = {
+        ["Content-Type"] = ""
+        ["Host"] = "127.0.0.1:30061"
+        ["Accept"] = "*/*"
+    }
+    ["method"] = "GET"
+    ["url"] = "/do?mapId=101&subline=1"
+    ["body_params"] = {
+    }
+    ["uri"] = "/do"
+}
+2025-09-20 09:01:54 [INFO]  {
+    ["params"] = {
+    }
+    ["body"] = "mapId=101&subline=1"
+    ["head_params"] = {
+        ["Accept"] = "*/*"
+        ["Content-Type"] = "application/x-www-form-urlencoded"
+        ["Host"] = "127.0.0.1:30061"
+        ["Content-Length"] = "19"
+    }
+    ["method"] = "POST"
+    ["url"] = "/do"
+    ["body_params"] = {
+        ["subline"] = "1"
+        ["mapId"] = "101"
+    }
+    ["uri"] = "/do"
+}

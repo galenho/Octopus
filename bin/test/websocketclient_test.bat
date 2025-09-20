@@ -1,0 +1,1 @@
+start "websocketclient_test" ../Octopus.exe . log/websocketclient_test test.xml websocketclient_test.lua

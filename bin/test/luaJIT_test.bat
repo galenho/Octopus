@@ -1,0 +1,1 @@
+start "luaJIT_test" ../Octopus.exe . log/luaJIT_test test.xml luaJIT_test.lua
